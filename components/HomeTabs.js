@@ -6,6 +6,8 @@ import { Box, Container, AppBar, Tabs, Tab, Typography } from "@mui/material";
 import language from "../strings/language";
 import Home from "./Home/Home";
 import Explore from "./Explore/Explore";
+import AboutUs from "./About/About";
+import MyStuff from "./MyStuff/MyStuff";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -13,6 +15,7 @@ function TabPanel(props) {
   return (
     <div
       role="tabpanel"
+      style={{ width: "inherit" }}
       hidden={value !== index}
       id={`full-width-tabpanel-${index}`}
       aria-labelledby={`full-width-tab-${index}`}
@@ -54,21 +57,20 @@ export default function HomeTabs() {
 
   return (
     <>
-      <AppBar position="static" color="default">
-        <Tabs
-          centered
-          value={value}
-          onChange={handleChange}
-          indicatorColor="secondary"
-          textColor="inherit"
-          // variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label={language.tab1} {...a11yProps(0)} />
-          <Tab label={language.tab2} {...a11yProps(1)} />
-          <Tab label={language.tab3} {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+      <Tabs
+        centered
+        value={value}
+        onChange={handleChange}
+        indicatorColor="secondary"
+        textColor="inherit"
+        // variant="fullWidth"
+        aria-label="full width tabs example"
+      >
+        <Tab label={language.tab1} {...a11yProps(0)} />
+        <Tab label={language.tab2} {...a11yProps(1)} />
+        <Tab label={language.tab3} {...a11yProps(2)} />
+        <Tab label={language.tab4} {...a11yProps(3)} />
+      </Tabs>
       <Container maxWidth="lg">
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
@@ -82,7 +84,10 @@ export default function HomeTabs() {
             <Explore />
           </TabPanel>
           <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
+            <AboutUs />
+          </TabPanel>
+          <TabPanel value={value} index={3} dir={theme.direction}>
+            <MyStuff />
           </TabPanel>
         </SwipeableViews>
       </Container>

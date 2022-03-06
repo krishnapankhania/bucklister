@@ -12,6 +12,11 @@ function reducer(state, action) {
         ...state,
         authOpen: action.payload,
       };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       throw new Error();
   }
@@ -23,6 +28,7 @@ function GlobalProvider({ children }) {
   const [globalState, dispatchGlobal] = React.useReducer(reducer, {
     drawerOpen: false,
     authOpen: false,
+    user: null,
   });
 
   return (

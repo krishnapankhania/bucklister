@@ -10,9 +10,12 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import language from "../../strings/language";
-import dynamic from "next/dynamic";
-import firebase, { _signInWithGoogle } from "../../firebase";
 import { Google } from "@mui/icons-material";
+import { GlobalContext } from "../../context/global";
+import { Box } from "@mui/material";
+import firebase from "../../firebase/firebase";
+import firestore from "../../firebase/firestore";
+import { User } from "../../firebase/Models";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -52,25 +55,22 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
+export default function AuthDialog() {
+  const { globalState, dispatchGlobal } = React.useContext(GlobalContext);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
   const handleClose = () => {
-    setOpen(false);
+    dispatchGlobal({
+      type: "OPEN_AUTH",
+      payload: false,
+    });
   };
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open dialog
-      </Button>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
-        open={open}
+        open={globalState.authOpen}
       >
         <BootstrapDialogTitle
           id="customized-dialog-title"
@@ -79,20 +79,24 @@ export default function CustomizedDialogs() {
           {language.login}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <div className="login-buttons">
+          <Box sx={{ bgcolor: "background.paper", p: 6 }}>
             <Button
               color="info"
               onClick={async () => {
-                const user = await _signInWithGoogle();
-                console.log("user", user);
+                const user = await firebase.signInWithGoogle();
+                const cuser = await firestore.createUser(new User(user).getDet(), user.uid);
+                dispatchGlobal({
+                  type: "SET_USER",
+                  payload: new User(user),
+                });
+                handleClose();
               }}
               startIcon={<Google />}
               variant="contained"
             >
               {language.signinWithGoogle}
             </Button>
-          
-          </div>
+          </Box>
         </DialogContent>
         {/* <DialogActions>
           <Button autoFocus onClick={handleClose}>

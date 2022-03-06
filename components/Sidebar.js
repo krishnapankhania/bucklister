@@ -1,15 +1,20 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import LoginIcon from "@mui/icons-material/Login";
 import { GlobalContext } from "../context/global";
 import language from "../strings/language";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import firebase from "../firebase/firebase";
+import {
+  Typography,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+} from "@mui/material";
 export default function Sidebar(props) {
   const { globalState, dispatchGlobal } = React.useContext(GlobalContext);
   const list = () => (
@@ -30,32 +35,41 @@ export default function Sidebar(props) {
       }}
     >
       <List>
-        <ListItem
-          button
-          onClick={() => {
-            dispatchGlobal({
-              type: "OPEN_AUTH",
-              payload: true,
-            });
-          }}
-        >
-          <ListItemIcon>
-            <LoginIcon />
-          </ListItemIcon>
-          <ListItemText primary={language.login} />
-        </ListItem>
-        {/* <ListItem button>
-          <ListItemIcon>
-            <HowToRegIcon />
-          </ListItemIcon>
-          <ListItemText primary={language.signup} />
-        </ListItem> */}
-        <ListItem button>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary={language.logout} />
-        </ListItem>
+        {!globalState.user && (
+          <ListItem
+            button
+            onClick={() => {
+              dispatchGlobal({
+                type: "OPEN_AUTH",
+                payload: true,
+              });
+            }}
+          >
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText primary={language.login} />
+          </ListItem>
+        )}
+        {globalState.user && (
+          <ListItem
+            button
+            onClick={async () => {
+              const res = await firebase.signOut();
+              if (res) {
+                dispatchGlobal({
+                  type: "SET_USER",
+                  payload: null,
+                });
+              }
+            }}
+          >
+            <ListItemIcon>
+              <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary={language.logout} />
+          </ListItem>
+        )}
       </List>
     </Box>
   );
@@ -72,7 +86,25 @@ export default function Sidebar(props) {
           });
         }}
       >
-        {list()}
+        <Box sx={{ bgcolor: "background.paper", p: 6 }}>
+          {globalState.user && (
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+            >
+              <Avatar
+                alt={globalState.user?.displayName}
+                src={globalState.user?.profileImage}
+                sx={{ width: 56, height: 56, mb: 2 }}
+              />
+              <Typography variant="h6" color={"primary"}>
+                Hi, {globalState.user?.displayName}
+              </Typography>
+            </Box>
+          )}
+          {list()}
+        </Box>
       </Drawer>
     </div>
   );
