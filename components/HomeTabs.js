@@ -83,8 +83,6 @@ export default function HomeTabs() {
         onChange={handleChange}
         indicatorColor="secondary"
         textColor="inherit"
-        orientation={detectDevice() == "mobileLg" ? "vertical" : "horizontal"}
-        variant={detectDevice() == "mobileLg" ? "scrollable" : "standard"}
         aria-label="full width tabs example"
       >
         <Tab label={language.tab1} {...a11yProps(0)} />
