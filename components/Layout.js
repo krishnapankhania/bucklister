@@ -62,7 +62,8 @@ export default function Layout(props) {
       <Sidebar />
       {/* <AuthDialog/> */}
       <AuthDialog />
-      <ActionList/>
+
+      {globalState.user && globalState.currentTab === 3 && <ActionList />}
     </ThemeProvider>
   );
 }

@@ -11,4 +11,7 @@ export default {
   signinWithGoogle: "Sign in with Google",
   mblTab1: "Wanna Do",
   mblTab2: "Done It!",
+  newItem: "Add New Item",
+  addDoneWish: "Add Done Item",
+  add: "Add"
 };

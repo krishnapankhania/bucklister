@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import language from "../../strings/language";
 import { AppBar } from "@mui/material";
 import WannaDo from "./WannaDo";
+import AddNewItem from "./AddNewItem";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,7 +21,14 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box
+          sx={{
+            p: {
+              sm: 2,
+              md: 3,
+            },
+          }}
+        >
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -51,7 +59,13 @@ export default function MyBucketList() {
   return (
     <>
       <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Box
+          sx={{ borderBottom: 1, borderColor: "divider" }}
+          mt={{
+            xs: 2,
+            md: 0,
+          }}
+        >
           <AppBar position="static" color="secondary">
             <Tabs
               value={value}
@@ -73,6 +87,7 @@ export default function MyBucketList() {
         <TabPanel value={value} index={1}>
           Item Two
         </TabPanel>
+        <AddNewItem/>
       </Box>
     </>
   );

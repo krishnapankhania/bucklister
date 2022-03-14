@@ -8,7 +8,7 @@ export default function WannaDo() {
       sx={{
         flexGrow: 1,
         p: {
-          xs: 0,
+          xs: 3,
           md: 3,
         },
       }}

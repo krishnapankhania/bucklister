@@ -33,5 +33,23 @@ a {
   }
   .b-logo {
     height: 60px;
+    @media (max-width: $medium) {
+      height: 40px;
+    }
+    img {
+      height: 100%;
+    }
   }
+}
+.upload-area {
+  border: 1px solid #999;
+}
+.popup-form {
+  width: 600px;
+  @media (max-width: $medium) {
+    width: 100%;
+  }
+}
+.MuiSpeedDialAction-staticTooltipLabel {
+  min-width: 150px !important;
 }
