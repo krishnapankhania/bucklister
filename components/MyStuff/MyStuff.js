@@ -4,16 +4,17 @@ import MyBucketList from "./MyBucketList";
 
 export default function MyStuff(props) {
   return (
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          p: {
-            sm: 0,
-          },
-          width: "100%",
-        }}
-      >
-        <MyBucketList />
-      </Box>
+    <Box
+      sx={{
+        bgcolor: "background.paper",
+        p: {
+          sm: 2,
+          lg: 3,
+        },
+        width: "100%",
+      }}
+    >
+      <MyBucketList />
+    </Box>
   );
 }

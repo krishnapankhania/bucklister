@@ -8,6 +8,8 @@ import Home from "./Home/Home";
 import Explore from "./Explore/Explore";
 import AboutUs from "./About/About";
 import MyStuff from "./MyStuff/MyStuff";
+import { GlobalContext } from "../context/global";
+import { detectDevice } from "../helper";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,8 +24,16 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+        <Box
+          component={"div"}
+          sx={{
+            p: {
+              sm: 2,
+              md: 3,
+            },
+          }}
+        >
+          {children}
         </Box>
       )}
     </div>
@@ -44,15 +54,25 @@ function a11yProps(index) {
 }
 
 export default function HomeTabs() {
+  const { globalState, dispatchGlobal } = React.useContext(GlobalContext);
+
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    dispatchGlobal({
+      type: "SET_CURRENT_TAB",
+      payload: newValue,
+    });
   };
 
   const handleChangeIndex = (index) => {
     setValue(index);
+    dispatchGlobal({
+      type: "SET_CURRENT_TAB",
+      payload: index,
+    });
   };
 
   return (
@@ -63,7 +83,8 @@ export default function HomeTabs() {
         onChange={handleChange}
         indicatorColor="secondary"
         textColor="inherit"
-        // variant="fullWidth"
+        orientation={detectDevice() == "mobileLg" ? "vertical" : "horizontal"}
+        variant={detectDevice() == "mobileLg" ? "scrollable" : "standard"}
         aria-label="full width tabs example"
       >
         <Tab label={language.tab1} {...a11yProps(0)} />
@@ -71,7 +92,7 @@ export default function HomeTabs() {
         <Tab label={language.tab3} {...a11yProps(2)} />
         <Tab label={language.tab4} {...a11yProps(3)} />
       </Tabs>
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" component={"div"}>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}

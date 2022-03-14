@@ -10,8 +10,8 @@ export default function Header() {
   return (
     <AppBar position="relative" className="b-header">
       <Toolbar className="b-toolbar">
-        <Typography variant="h6" noWrap component="div">
-          <img src={logo.src} className="b-logo" />
+        <Typography variant="h6" noWrap component="div" className="b-logo">
+          <img src={logo.src} />
         </Typography>
         <IconButton
           className="b-menu"

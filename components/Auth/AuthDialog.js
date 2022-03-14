@@ -69,22 +69,33 @@ export default function AuthDialog() {
     <div>
       <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby="auth-dialog"
         open={globalState.authOpen}
       >
         <BootstrapDialogTitle
-          id="customized-dialog-title"
+          id="auth-dialog"
           onClose={handleClose}
         >
           {language.login}
         </BootstrapDialogTitle>
         <DialogContent dividers>
-          <Box sx={{ bgcolor: "background.paper", p: 6 }}>
+          <Box
+            sx={{
+              bgcolor: "background.paper",
+              p: {
+                sm: 2,
+                md: 6,
+              },
+            }}
+          >
             <Button
               color="info"
               onClick={async () => {
                 const user = await firebase.signInWithGoogle();
-                const cuser = await firestore.createUser(new User(user).getDet(), user.uid);
+                const cuser = await firestore.createUser(
+                  new User(user).getDet(),
+                  user.uid
+                );
                 dispatchGlobal({
                   type: "SET_USER",
                   payload: new User(user),

@@ -17,6 +17,16 @@ function reducer(state, action) {
         ...state,
         user: action.payload,
       };
+    case "SET_CURRENT_TAB":
+      return {
+        ...state,
+        currentTab: action.payload,
+      };
+    case "SET_POPUP":
+      return {
+        ...state,
+        popup: action.payload,
+      };
     default:
       throw new Error();
   }
@@ -29,6 +39,8 @@ function GlobalProvider({ children }) {
     drawerOpen: false,
     authOpen: false,
     user: null,
+    currentTab: 0,
+    popup: null,
   });
 
   return (

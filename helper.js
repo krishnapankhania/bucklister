@@ -12,3 +12,9 @@ export const detectDevice = () => {
     return "";
   }
 };
+
+export const docToObject = (value) => {
+  return value.docs.map((doc) => {
+    return doc.data();
+  });
+};
